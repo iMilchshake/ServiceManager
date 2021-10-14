@@ -1,7 +1,7 @@
 import subprocess
 import sys
 
-from ServiceManager.Logger import log
+from ServiceManager.Logger import Logger
 from ServiceManager.util.Config import LogLevel
 
 
@@ -21,21 +21,23 @@ def _runCmd(cmd):
 
 def runJob(cmd, jobName, logLevel):
     """ runs """
-    if logLevel < LogLevel.NO_LOG:
-        log(f"Starting Job '{jobName}'", logLevel=LogLevel.INFO)
+    with Logger() as logger:
+        if logLevel < LogLevel.NO_LOG:
+            logger.log(f"Starting Job '{jobName}'", logLevel=LogLevel.INFO)
 
-    status, output, error = _runCmd(cmd)
+        status, output, error = _runCmd(cmd)
 
-    if logLevel == logLevel.DEBUG:
-        for o in output:
-            log(o, logLevel=LogLevel.DEBUG)
+        if logLevel == logLevel.DEBUG:
+            for o in output:
+                logger.log(o, logLevel=LogLevel.DEBUG)
 
-    if logLevel <= LogLevel.ERRORS:
-        for e in error:
-            log(e, logLevel=LogLevel.ERRORS)
+        if logLevel <= LogLevel.ERRORS:
+            for e in error:
+                logger.log(e, logLevel=LogLevel.ERRORS)
 
-    if logLevel < LogLevel.NO_LOG:
-        log(f"Job '{jobName}' Finished {'Successfully' if status == 0 else 'with an Error!'}", logLevel=LogLevel.INFO)
+        if logLevel < LogLevel.NO_LOG:
+            logger.log(f"Job '{jobName}' Finished {'Successfully' if status == 0 else 'with an Error!'}",
+                       logLevel=LogLevel.INFO)
 
 
 if __name__ == "__main__":
