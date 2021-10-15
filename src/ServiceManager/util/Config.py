@@ -25,6 +25,6 @@ class OrderedEnum(Enum):
 
 class LogLevel(OrderedEnum):
     DEBUG = 1
-    ERRORS = 2
+    ERROR = 2
     INFO = 3
-    NO_LOG = 4
+    NOLOG = 4

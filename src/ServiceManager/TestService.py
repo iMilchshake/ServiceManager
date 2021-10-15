@@ -1,5 +1,11 @@
+import random
 import sys
 
-print("This could be some debug text!")
-print("Warning: This is a Warning! Something is going terribly wrong", file=sys.stderr)
-raise ValueError("Okay not a warning, script completely failed D:")
+print("Thanks for using TestService.py!")
+if random.choice([True, False]):
+    print("this script is doing hard work")
+elif random.choice([True, False]):
+    print("Warning: Something might be going wrong!", file=sys.stderr)
+else:
+    raise ValueError("script completely failed!")
+print("The answer to the universe is 42!")
