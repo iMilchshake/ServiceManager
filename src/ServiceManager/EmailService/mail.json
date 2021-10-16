@@ -1,0 +1,14 @@
+{
+  "html": "<html><p>A service failed!: {{ jobName }}",
+  "text": "A service failed!: {{ jobName }}",
+  "subject": "A service failed!: {{ jobName }}",
+  "mail_from": ["Tobi's Service Manager",  "***********************"],
+  "mail_to": "**********************",
+  "smtp": {
+	"host": "mail.gmx.net",
+	"port": "465",
+	"ssl": "True",
+	"user": "*****************",
+	"password": "************"
+  }
+}
