@@ -1,6 +1,7 @@
 import json
 from collections.abc import Iterable
-
+import sys
+import os
 import emails
 from ServiceManager.util.Config import checkKeyInDict
 from jinja2 import Template as T
@@ -31,7 +32,11 @@ def sendEmail(mailConfig, render):
 
 
 def sendJobFailMail(jobName):
-    with open('EmailService\\mail.json', "r") as mailCfgFile:
+
+    scriptPath = os.path.dirname(__file__)
+    mailCfgPath = os.path.join(scriptPath, 'mail.json')
+
+    with open(mailCfgPath, "r") as mailCfgFile:
         mailCfg = json.load(mailCfgFile)
         sendEmail(mailCfg, {'jobName': jobName})
 

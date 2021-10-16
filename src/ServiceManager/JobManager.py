@@ -1,7 +1,9 @@
+import os
 import subprocess
 import sys
 import traceback
 
+from ServiceManager.EmailService.EmailService import sendJobFailMail
 from ServiceManager.Logger import Logger
 from ServiceManager.util.Config import LogLevel
 
@@ -36,9 +38,18 @@ def runJob(cmd, jobName, logLevel):
         # send email to admin
         if status != 0:
             logger.log("Sending email to admin!", logLevel=LogLevel.INFO)
+            try:
+                sendJobFailMail(jobName)
+            except Exception as ex:
+                logger.log("An error occurred while trying to send the email", logLevel=LogLevel.INFO, stdout=True)
+                logger.log(f"Exception: {ex}", logLevel=LogLevel.ERROR, stdout=True)
+                logger.log(f"Stack: {traceback.format_exc()}", logLevel=LogLevel.ERROR, stdout=True)
 
 
 if __name__ == "__main__":
+
+    print(os.getcwd())
+
     # JobManager.py <cmd> <jobName> <logLevel>
     if len(sys.argv) == 4:
         try:
