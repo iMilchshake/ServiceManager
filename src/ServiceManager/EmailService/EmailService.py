@@ -1,46 +1,45 @@
 import json
-from collections.abc import Iterable
-import sys
 import os
+from collections.abc import Iterable
+
 import emails
-from ServiceManager.util.Config import checkKeyInDict
+from ServiceManager.util.Config import check_key_in_dict
 from jinja2 import Template as T
 
 
-def checkMailConfig(mailConfig):
-    return all([checkKeyInDict('html', mailConfig, str),
-                checkKeyInDict('text', mailConfig, str),
-                checkKeyInDict('subject', mailConfig, str),
-                checkKeyInDict('mail_from', mailConfig, (str, Iterable)),
-                checkKeyInDict('mail_to', mailConfig, str),
-                checkKeyInDict('smtp', mailConfig, dict)])
+def check_mail_config(mail_config):
+    return all([check_key_in_dict('html', mail_config, str),
+                check_key_in_dict('text', mail_config, str),
+                check_key_in_dict('subject', mail_config, str),
+                check_key_in_dict('mail_from', mail_config, (str, Iterable)),
+                check_key_in_dict('mail_to', mail_config, str),
+                check_key_in_dict('smtp', mail_config, dict)])
 
 
-def sendEmail(mailConfig, render):
-    if checkMailConfig(mailConfig):
-        m = emails.Message(html=T(mailConfig["html"]),
-                           text=T(mailConfig["text"]),
-                           subject=T(mailConfig["subject"]),
-                           mail_from=mailConfig["mail_from"])
+def send_email(mail_config, render):
+    if check_mail_config(mail_config):
+        m = emails.Message(html=T(mail_config["html"]),
+                           text=T(mail_config["text"]),
+                           subject=T(mail_config["subject"]),
+                           mail_from=mail_config["mail_from"])
 
         response = m.send(render=render,
-                          to=mailConfig["mail_to"],
-                          smtp=mailConfig["smtp"])
+                          to=mail_config["mail_to"],
+                          smtp=mail_config["smtp"])
 
         if response.status_code not in [250]:
             raise Exception(f"Mail could not be send! Error-code: {response.status_code} - {response}")
 
 
-def sendJobFailMail(jobName):
+def send_job_fail_mail(job_name):
+    script_path = os.path.dirname(__file__)
+    mail_cfg_path = os.path.join(script_path, 'mail.json')
 
-    scriptPath = os.path.dirname(__file__)
-    mailCfgPath = os.path.join(scriptPath, 'mail.json')
-
-    with open(mailCfgPath, "r") as mailCfgFile:
-        mailCfg = json.load(mailCfgFile)
-        sendEmail(mailCfg, {'jobName': jobName})
+    with open(mail_cfg_path, "r") as mail_cfg_file:
+        mail_cfg = json.load(mail_cfg_file)
+        send_email(mail_cfg, {'job_name': job_name})
 
 
 if __name__ == "__main__":
-    sendJobFailMail("epicJobV2")
+    send_job_fail_mail("epicJobV2")
     print("done!")

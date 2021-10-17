@@ -1,7 +1,7 @@
 {
-  "html": "<html><p>A service failed!: {{ jobName }}",
-  "text": "A service failed!: {{ jobName }}",
-  "subject": "A service failed!: {{ jobName }}",
+  "html": "<html><p>A service failed!: {{ job_name }}",
+  "text": "A service failed!: {{ job_name }}",
+  "subject": "A service failed!: {{ job_name }}",
   "mail_from": ["Tobi's Service Manager",  "***********************"],
   "mail_to": "**********************",
   "smtp": {

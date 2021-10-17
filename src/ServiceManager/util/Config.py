@@ -30,7 +30,7 @@ class LogLevel(OrderedEnum):
     NOLOG = 4
 
 
-def checkKeyInDict(key, dictionary, types):
+def check_key_in_dict(key, dictionary, types):
     """
     checks if a dict has a given key and if the key has the correct type
 
