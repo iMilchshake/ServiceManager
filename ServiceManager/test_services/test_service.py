@@ -1,7 +1,7 @@
 import random
 import sys
 
-print("Thanks for using TestService.py!")
+print("Thanks for using test_service.py!")
 if random.choice([True, False]):
     print("this script is doing hard work")
 elif random.choice([True, False]):

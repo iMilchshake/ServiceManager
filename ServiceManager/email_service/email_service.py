@@ -3,7 +3,7 @@ import os
 from collections.abc import Iterable
 
 import emails
-from ServiceManager.util.Config import check_key_in_dict
+from ServiceManager.util.config import check_key_in_dict
 from jinja2 import Template as T
 
 
