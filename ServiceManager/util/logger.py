@@ -14,10 +14,8 @@ class Logger:
     def __exit__(self, exc_type, exc_val, exc_tb):
         self.file.close()
 
-    def log(self, message, log_level: LogLevel = None, stdout=True):
-        if log_level is not None:
-            message = f"[{log_level.name.rjust(5)}] {message}"
-        message = f"[{datetime.now().strftime('%d/%m/%Y %H:%M:%S')}] {message}"
+    def log(self, message, log_level: LogLevel = LogLevel.ERROR, stdout=True):
+        message = f"[{datetime.now().strftime('%d/%m/%Y %H:%M:%S')}] [{log_level.name.rjust(5)}] {message}"
         self.file.write(message + "\n")
 
         if stdout:

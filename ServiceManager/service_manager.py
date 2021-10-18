@@ -7,14 +7,24 @@ from ServiceManager.util.config import LogLevel
 from ServiceManager.util.logger import Logger
 
 
-def run_service(cmd, service_name, log_level):
-    """ runs """
+def run_service(cmd, service_name, log_level, cwd, shell):
+    """
+    runs a service
+    :param cmd: a command to run
+    :param service_name: name for the service
+    :param log_level: log severity see LogLevel class
+    :param cwd: working directory to run the command from.
+                On default the current working directory will be used.
+    :param shell: whether to run the command with shell-access (use this with caution,
+                  https://stackoverflow.com/q/3172470/14502004)
+    """
     with Logger() as logger:
+        log_level = LogLevel[log_level]  # convert log_level string to LogLevel object!
         if log_level < LogLevel.NOLOG:
             logger.log(f"Starting service: '{service_name}'", log_level=LogLevel.INFO)
 
         # run command in subprocess
-        p = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        p = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, cwd=cwd, shell=shell)
         output, error = p.communicate()
         status = p.returncode
         encoding = sys.stdout.encoding
