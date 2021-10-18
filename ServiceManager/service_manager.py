@@ -1,11 +1,10 @@
-import os
 import subprocess
 import sys
 import traceback
 
 from ServiceManager.email_service.email_service import send_service_fail_mail
-from ServiceManager.util.logger import Logger
 from ServiceManager.util.config import LogLevel
+from ServiceManager.util.logger import Logger
 
 
 def run_service(cmd, service_name, log_level):
@@ -40,6 +39,7 @@ def run_service(cmd, service_name, log_level):
             logger.log("Sending email to admin!", log_level=LogLevel.INFO)
             try:
                 send_service_fail_mail(service_name)
+                logger.log("Email has been sent!", log_level=LogLevel.INFO)
             except Exception as ex:
                 logger.log("An error occurred while trying to send the email", log_level=LogLevel.INFO, stdout=True)
                 logger.log(f"Exception: {ex}", log_level=LogLevel.ERROR, stdout=True)

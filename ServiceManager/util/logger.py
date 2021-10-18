@@ -1,4 +1,3 @@
-import os
 from datetime import datetime
 
 from ServiceManager.util.config import LogLevel
@@ -7,9 +6,7 @@ from ServiceManager.util.config import LogLevel
 class Logger:
 
     def __init__(self):
-        script_path = os.path.dirname(__file__)
-        log_file_path = os.path.join(script_path, '../services.log')
-        self.file = open(log_file_path, "a")
+        self.file = open("services.log", "a")
 
     def __enter__(self):
         return self
