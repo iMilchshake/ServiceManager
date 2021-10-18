@@ -31,15 +31,15 @@ def send_email(mail_config, render):
             raise Exception(f"Mail could not be send! Error-code: {response.status_code} - {response}")
 
 
-def send_job_fail_mail(job_name):
+def send_service_fail_mail(service_name):
     script_path = os.path.dirname(__file__)
     mail_cfg_path = os.path.join(script_path, 'mail.json')
 
     with open(mail_cfg_path, "r") as mail_cfg_file:
         mail_cfg = json.load(mail_cfg_file)
-        send_email(mail_cfg, {'job_name': job_name})
+        send_email(mail_cfg, {'service_name': service_name})
 
 
 if __name__ == "__main__":
-    send_job_fail_mail("epicJobV2")
+    send_service_fail_mail("epicServiceV1")
     print("done!")

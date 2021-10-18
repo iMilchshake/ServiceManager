@@ -8,7 +8,7 @@ class Logger:
 
     def __init__(self):
         script_path = os.path.dirname(__file__)
-        log_file_path = os.path.join(script_path, '../jobs.log')
+        log_file_path = os.path.join(script_path, '../services.log')
         self.file = open(log_file_path, "a")
 
     def __enter__(self):
