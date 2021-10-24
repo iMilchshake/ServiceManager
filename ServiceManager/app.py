@@ -9,7 +9,7 @@ from ServiceManager.util.logger import Logger
 
 
 def run():
-    parser = argparse.ArgumentParser(description="A simple service manager", prefix_chars="/-",
+    parser = argparse.ArgumentParser(description="A simple service manager", prefix_chars="-",
                                      prog="python -m ServiceManager")
     parser.add_argument("cmd", type=str, help="a terminal command to run")
     parser.add_argument("name", type=str, help="the name for the service")
@@ -19,6 +19,7 @@ def run():
                                                 "On default the current working directory will be used")
     parser.add_argument("--shell", action="store_true", help="enable shell mode")
     args = vars(parser.parse_args())
+    print(args)
 
     try:
         run_service(args["cmd"], args["name"], args["log"], args["cwd"], args["shell"])
