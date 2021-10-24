@@ -6,7 +6,7 @@ from .steam_scraper import get_all_user_data
 
 if __name__ == "__main__":
     # initialize parser
-    parser = argparse.ArgumentParser(description="A simple steam scraper", prefix_chars="/-",
+    parser = argparse.ArgumentParser(description="A simple steam scraper", prefix_chars="-",
                                      prog="python -m test_service.py")
 
     # add arguments
