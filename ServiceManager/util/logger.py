@@ -5,8 +5,11 @@ from ServiceManager.util.config import LogLevel
 
 class Logger:
 
-    def __init__(self):
-        self.file = open("services.log", "a")
+    def __init__(self, log_file):
+        if log_file is None:
+            log_file = "services.log"  # save to cwd with default name
+
+        self.file = open(log_file, "a")
 
     def __enter__(self):
         return self

@@ -7,10 +7,11 @@ from ServiceManager.util.config import LogLevel
 from ServiceManager.util.logger import Logger
 
 
-def run_service(cmd, service_name, log_level, cwd, shell):
+def run_service(cmd, service_name, log_level, log_file, cwd, shell):
     """
     runs a service
-    :param cmd: a command to run
+    :param log_file: path to file to add the log-messages in
+    :param cmd: (bash) command to run
     :param service_name: name for the service
     :param log_level: log severity see LogLevel class
     :param cwd: working directory to run the command from.
@@ -18,8 +19,9 @@ def run_service(cmd, service_name, log_level, cwd, shell):
     :param shell: whether to run the command with shell-access (use this with caution,
                   https://stackoverflow.com/q/3172470/14502004)
     """
-    with Logger() as logger:
-        log_level = LogLevel[log_level]  # convert log_level string to LogLevel object!
+
+    with Logger(log_file) as logger:
+        log_level = LogLevel[log_level]
         if log_level < LogLevel.NOLOG:
             logger.log(f"Starting service: '{service_name}'", log_level=LogLevel.INFO)
 

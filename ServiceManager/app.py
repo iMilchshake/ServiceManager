@@ -15,16 +15,17 @@ def run():
     parser.add_argument("name", type=str, help="the name for the service")
     parser.add_argument("--log", type=str, help="log severity", default="ERROR",
                         choices=["DEBUG", "ERROR", "INFO", "NOLOG"])
+    parser.add_argument("--log_file", type=str, help="path to a filename to store the log messages in. file will be "
+                                                     "created if it does not exist yet.")
     parser.add_argument("--cwd", type=str, help="working directory to run the command from."
                                                 "On default the current working directory will be used")
     parser.add_argument("--shell", action="store_true", help="enable shell mode")
     args = vars(parser.parse_args())
-    print(args)
 
     try:
-        run_service(args["cmd"], args["name"], args["log"], args["cwd"], args["shell"])
+        run_service(args["cmd"], args["name"], args["log"], args["log_file"], args["cwd"], args["shell"])
     except Exception as err:
-        with Logger() as logger:
+        with Logger(args["log_file"]) as logger:
             logger.log(f"service_manager.py was not able to launch the Service!", log_level=LogLevel.INFO,
                        stdout=True)
             logger.log(f"Error: {err}", log_level=LogLevel.ERROR, stdout=True)
