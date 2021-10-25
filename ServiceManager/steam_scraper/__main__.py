@@ -19,7 +19,7 @@ if __name__ == "__main__":
     args = vars(parser.parse_args())
 
     # fetch user data
-    user_data = get_all_user_data(args["steam_id"], args["api_key"])
+    user_data = str(get_all_user_data(args["steam_id"], args["api_key"]))
 
     if args["dir"]:
         file_path = os.path.join(args["dir"], datetime.now().strftime(f"{args['steam_id']}_%d_%m_%Y_%H_%M"))
