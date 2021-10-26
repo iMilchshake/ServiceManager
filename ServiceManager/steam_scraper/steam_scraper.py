@@ -3,7 +3,7 @@ import json
 import requests
 from bs4 import BeautifulSoup
 
-PLAYTIME_EPSILON = 0.1
+PLAYTIME_EPSILON = 0.2
 
 
 def scrape_profile(steamid):
@@ -63,4 +63,5 @@ def validate_data(data):
                                    data['get_owned_games_v1']['games'])) / 60
     playtime_profile_scrape = float(data['profile_scrape']['recent_activity'])
     assert abs(playtime_profile_scrape - playtime_owned_games) < PLAYTIME_EPSILON, \
-        f"scraped and API's recent playtime differ more than {PLAYTIME_EPSILON}"
+        f"scraped and API's recent playtime differ more than {PLAYTIME_EPSILON}," \
+        f"({playtime_owned_games}, {playtime_profile_scrape})"
