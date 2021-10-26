@@ -1,6 +1,7 @@
 import json
 
 import requests
+from ServiceManager.util.config import check_key_in_dict
 from bs4 import BeautifulSoup
 
 PLAYTIME_EPSILON = 0.1
@@ -24,7 +25,8 @@ def scrape_profile(steamid):
             profile_stats[heading] = 0
 
     profile_stats["player_level"] = int(profile_soup.find(class_="friendPlayerLevelNum").text)
-    profile_stats["recent_activity"] = profile_soup.find(class_="recentgame_recentplaytime").text.split(" ")[0]
+    profile_stats["recent_activity"] = float(profile_soup.find(class_="recentgame_recentplaytime").text.split(" ")[0]
+                                             .replace("\n", ""))
     return profile_stats
 
 
@@ -63,3 +65,8 @@ def validate_data(data):
     playtime_profile_scrape = float(data['profile_scrape']['recent_activity'])
     assert abs(playtime_profile_scrape - playtime_owned_games) < PLAYTIME_EPSILON, \
         f"scraped and API's recent playtime differ more than {PLAYTIME_EPSILON}"
+
+    check_key_in_dict("profile_scrape", data, dict)
+    check_key_in_dict("get_player_summaries_v2", data, dict)
+    check_key_in_dict("get_owned_games_v1", data, dict)
+

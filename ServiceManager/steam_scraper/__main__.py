@@ -2,7 +2,7 @@ import argparse
 import os
 from datetime import datetime
 
-from .steam_scraper import get_all_user_data
+from .steam_scraper import get_all_user_data, validate_data
 
 if __name__ == "__main__":
     # initialize parser
@@ -19,7 +19,8 @@ if __name__ == "__main__":
     args = vars(parser.parse_args())
 
     # fetch user data
-    user_data = str(get_all_user_data(args["steam_id"], args["api_key"]))
+    user_data = get_all_user_data(args["steam_id"], args["api_key"])
+    validate_data(user_data)
 
     if args["dir"]:
         file_path = os.path.join(args["dir"], datetime.now().strftime(f"{args['steam_id']}_%d_%m_%Y_%H_%M"))
