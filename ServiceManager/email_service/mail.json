@@ -1,5 +1,5 @@
 {
-  "html": "<html><p>A service failed!: {{ service_name }}",
+  "html": "<html><p>A service failed!: {{ service_name }}</p> <p> {{ error }} </p> </html>",
   "text": "A service failed!: {{ service_name }}",
   "subject": "A service failed!: {{ service_name }}",
   "mail_from": ["Tobi's Service Manager",  "***********************"],

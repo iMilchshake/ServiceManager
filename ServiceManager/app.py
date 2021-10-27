@@ -34,7 +34,8 @@ def run():
             logger.log("Sending email to admin!", log_level=LogLevel.INFO)
 
             try:
-                send_service_fail_mail(args["name"])
+                send_service_fail_mail(args["name"], f"Error: {err} <br><br> Stacktrace: <br> {traceback.format_exc()}"
+                                                     f"<br><br> Arguments: {sys.argv[1:]}")
                 logger.log("Email has been sent!", log_level=LogLevel.INFO)
             except Exception as ex:
                 logger.log("An error occurred while trying to send the email", log_level=LogLevel.INFO, stdout=True)

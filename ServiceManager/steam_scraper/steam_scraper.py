@@ -4,7 +4,7 @@ import sys
 import requests
 from bs4 import BeautifulSoup
 
-PLAYTIME_EPSILON = 0.1
+PLAYTIME_EPSILON = 0.2
 
 
 def scrape_profile(steamid):
@@ -26,7 +26,7 @@ def scrape_profile(steamid):
     warning = False
     if len(query_counts) != len(headings):
         warning = True
-        print_warning("heading count and html-element count dont match!")
+        print_warning(f"heading count and html-element count dont match! ({len(query_counts)}, {len(headings)})")
 
     return profile_stats, warning
 

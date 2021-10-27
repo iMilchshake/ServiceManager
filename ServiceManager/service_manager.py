@@ -50,7 +50,7 @@ def run_service(cmd, service_name, log_level, log_file, cwd, shell):
         if status != 0:
             logger.log("Sending email to admin!", log_level=LogLevel.INFO)
             try:
-                send_service_fail_mail(service_name)
+                send_service_fail_mail(service_name, "<br>".join(error))
                 logger.log("Email has been sent!", log_level=LogLevel.INFO)
             except Exception as ex:
                 logger.log("An error occurred while trying to send the email", log_level=LogLevel.INFO, stdout=True)

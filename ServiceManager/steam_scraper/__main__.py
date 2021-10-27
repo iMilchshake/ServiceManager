@@ -31,4 +31,4 @@ if __name__ == "__main__":
         print(user_data)
 
     if warning:
-        sys.exit(1)  # return script with error
+        sys.exit(2)  # return script with exit-code 2 (signaling a warning)
