@@ -1,4 +1,5 @@
 import json
+import re
 import sys
 
 import requests
@@ -10,23 +11,33 @@ PLAYTIME_EPSILON = 0.2
 def scrape_profile(steamid):
     URL_PROFILE = f"https://steamcommunity.com/profiles/{steamid}/"
     profile_soup = BeautifulSoup(requests.get(URL_PROFILE).content, "html.parser")
-    headings = ["badges", "games", "inventory", "screenshots", "workshop_items", "reviews", "artwork", "groups",
-                "friends"]
-
-    query_counts = profile_soup.find_all(class_="profile_count_link_total")
-
+    warning = False
     profile_stats = dict()
-    for html_element, heading in zip(query_counts, headings):
-        extract_number = ''.join(filter(lambda x: x.isdigit(), html_element.text))
-        profile_stats[heading] = int(extract_number) if len(extract_number) > 0 else 0
 
-    profile_stats["player_level"] = int(profile_soup.find(class_="friendPlayerLevelNum").text)
+    query = profile_soup.find_all(class_="profile_count_link ellipsis")
+
+    if len(query) == 0:
+        warning = True
+        print_warning("No 'profile_count' stats have been found on the scraped profile!")
+
+    for stat in query:
+        stat_name = str(stat.find("a").find(class_="count_link_label").text).lower()
+        numbers = re.findall(r'\d+', stat.find("a").find(class_="profile_count_link_total").text)
+
+        if len(numbers) == 1:
+            stat_count = int(numbers[0])
+        elif len(numbers) == 0:
+            stat_count = 0
+        else:
+            stat_count = -1
+            warning = True
+            print_warning(f"RegEx found {len(numbers)} Numbers for '{stat_name}'")
+
+        profile_stats[stat_name] = stat_count
+
+    profile_stats["level"] = int(profile_soup.find(class_="friendPlayerLevelNum").text)
     profile_stats["recent_activity"] = float(profile_soup.find(class_="recentgame_recentplaytime").text.split(" ")[0]
                                              .replace("\n", ""))
-    warning = False
-    if len(query_counts) != len(headings):
-        warning = True
-        print_warning(f"heading count and html-element count dont match! ({len(query_counts)}, {len(headings)})")
 
     return profile_stats, warning
 
