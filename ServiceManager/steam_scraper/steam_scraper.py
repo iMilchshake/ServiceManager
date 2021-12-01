@@ -69,7 +69,7 @@ def get_all_user_data(steam_id, api_key):
         "get_owned_games_v1": get_owned_games_v1(steam_id, api_key)
     }
 
-    validate_warning = validate_data(data)
+    validate_warning = False  # validate_data(data) TODO: add another method of validating data?
     return data, scrape_warning or validate_warning
 
 

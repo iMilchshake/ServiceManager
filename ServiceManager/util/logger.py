@@ -19,7 +19,7 @@ class Logger:
 
     def log(self, message, log_level: LogLevel = LogLevel.ERROR, stdout=True):
         message = f"[{datetime.now().strftime('%d/%m/%Y %H:%M:%S')}] [{log_level.name.rjust(5)}] {message}"
-        self.file.write(message + "\n")
+        self.file.write(message + "\n")  # TODO: UTF-8 Errors! UnicodeEncodeError: 'charmap' codec can't encode..
 
         if stdout:
             print(message)
