@@ -36,9 +36,11 @@ def scrape_profile(steamid):
         profile_stats[stat_name] = stat_count
 
     profile_stats["level"] = int(profile_soup.find(class_="friendPlayerLevelNum").text)
-    profile_stats["recent_activity"] = float(profile_soup.find(class_="recentgame_recentplaytime").text.split(" ")[0]
-                                             .replace("\n", ""))
-
+    recent_activity = profile_soup.find(class_="recentgame_recentplaytime")
+    if recent_activity:
+        profile_stats["recent_activity"] = float(recent_activity.text.split(" ")[0].replace("\n", ""))
+    else:
+        profile_stats["recent_activity"] = 0
     return profile_stats, warning
 
 
